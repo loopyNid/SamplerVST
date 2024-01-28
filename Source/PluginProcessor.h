@@ -51,7 +51,7 @@ private:
     const int nVoices {10};
 
     AudioFormatManager nFormatManager;
-    // AudioFormatReader* nFormatReader { nullptr };
+    // AudioBuffer<float> nWaveForm;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SamplerVSTAudioProcessor)
 };

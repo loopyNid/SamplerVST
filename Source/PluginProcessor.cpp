@@ -193,8 +193,19 @@ void SamplerVSTAudioProcessor::loadFile(const String& path)
 {
     auto file = File(path);
     std::unique_ptr<AudioFormatReader> formatReader(nFormatManager.createReaderFor(file));
+    AudioBuffer<float> waveForm;
     if(formatReader)
     {
+        auto sampleLeght = static_cast<int>(formatReader->lengthInSamples);
+        waveForm.setSize(1, sampleLeght);
+        formatReader->read(&waveForm, 0, sampleLeght, 0, true, false);
+        auto buffer = waveForm.getReadPointer(0);
+
+        for(int sample = 0; sample < waveForm.getNumSamples(); sample++)
+        {
+            DBG(buffer[sample]);
+        }
+        
         BigInteger range;
         range.setRange(0, 128, true);
         nikkSampler.addSound(new SamplerSound("Sample", *formatReader, range, 60, 0.1, 0.1, 10.0));
