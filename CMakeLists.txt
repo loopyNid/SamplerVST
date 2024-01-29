@@ -37,6 +37,7 @@ juce_generate_juce_header(${TargetName})
 set(src
     PluginEditor.cpp
     PluginProcessor.cpp
+    SampleThumbnail.cpp
 )
 list(TRANSFORM src PREPEND "Source/")
 

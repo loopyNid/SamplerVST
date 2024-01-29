@@ -3,36 +3,41 @@
 
 //==============================================================================
 SamplerVSTAudioProcessorEditor::SamplerVSTAudioProcessorEditor (SamplerVSTAudioProcessor& p)
-    : AudioProcessorEditor (&p), processorRef (p)
+    : AudioProcessorEditor (&p),
+                                processorRef (p)
 {
     juce::ignoreUnused (processorRef);
+    
+    processorRef.th.addChangeListener(&sThumb);
+    
+    addAndMakeVisible(sThumb);
     nLoadButton.onClick = [&] {processorRef.loadFile();};
     addAndMakeVisible(nLoadButton);
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (400, 300);
+    setSize (800, 300);
 }
 
 SamplerVSTAudioProcessorEditor::~SamplerVSTAudioProcessorEditor()
 {
+    //set listener?
 }
 
 //==============================================================================
 void SamplerVSTAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-
-    g.setColour (juce::Colours::white);
-    g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
+    g.fillAll(Colours::purple);
+    // addAndMakeVisible(sThumb);
+    // th.drawChannels(g, getLocalBounds(), 0, th.getTotalLength(), 1.0f);
 }
 
 void SamplerVSTAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
-    nLoadButton.setBounds(getWidth() / 2 - 50, getHeight() / 2 - 50, 100, 100);
+    nLoadButton.setBounds(0, 0, getWidth()/2, getHeight());
+    sThumb.setBounds(getWidth()/2,0,getWidth()/2,getHeight());
 }
 
 bool SamplerVSTAudioProcessorEditor::isInterestedInFileDrag(const StringArray& files)
@@ -54,7 +59,6 @@ void SamplerVSTAudioProcessorEditor::filesDropped(const StringArray& files, int 
         if(isInterestedInFileDrag(file))
         {
             processorRef.loadFile(file);
-            // std::cout << "loaded file" << std::endl;
         }
     }
 }

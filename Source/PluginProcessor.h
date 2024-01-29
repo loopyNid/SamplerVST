@@ -46,12 +46,14 @@ public:
     void loadFile();
     void loadFile(const String& path);
 
+    AudioThumbnail th;
 private:
+    AudioFormatManager nFormatManager;
     Synthesiser nikkSampler;
     const int nVoices {10};
 
-    AudioFormatManager nFormatManager;
-    // AudioBuffer<float> nWaveForm;
+    AudioThumbnailCache thCache;
+
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SamplerVSTAudioProcessor)
 };
