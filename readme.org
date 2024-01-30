@@ -1,0 +1,9 @@
+* SIMPLE SAMPLER
+
+a simple sample made with the JUCE framework.
+
+** todo
+- volume
+- panning
+- ADSR
+- repitch
