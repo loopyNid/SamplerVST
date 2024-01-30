@@ -11,8 +11,15 @@ SamplerVSTAudioProcessorEditor::SamplerVSTAudioProcessorEditor (SamplerVSTAudioP
     processorRef.th.addChangeListener(&sThumb);
     
     addAndMakeVisible(sThumb);
+
     nLoadButton.onClick = [&] {processorRef.loadFile();};
     addAndMakeVisible(nLoadButton);
+
+    ampSlider.setRange(0.0, 1.0);
+    ampSlider.setValue(processorRef.amp);
+    ampSlider.onValueChange = [&] {processorRef.setAmp(ampSlider.getValue());};
+    ampSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
+    addAndMakeVisible(ampSlider);
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setSize (800, 300);
@@ -36,8 +43,10 @@ void SamplerVSTAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
-    nLoadButton.setBounds(0, 0, getWidth()/2, getHeight());
     sThumb.setBounds(getWidth()/2,0,getWidth()/2,getHeight());
+    uiArea.setBounds(0, 0, getWidth()/2, getHeight());
+    nLoadButton.setBounds(20, 20, uiArea.getWidth() / 3 -50, uiArea.getHeight() / 3 -50);
+    ampSlider.setBounds(20, 70, uiArea.getWidth() / 3 , uiArea.getHeight() / 3 );
 }
 
 bool SamplerVSTAudioProcessorEditor::isInterestedInFileDrag(const StringArray& files)

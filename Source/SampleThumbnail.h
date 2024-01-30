@@ -14,18 +14,27 @@
 //==============================================================================
 /*
 */
-class SampleThumbnail  : public juce::Component, public juce::ChangeListener
+class SampleThumbnail  : public juce::Component, public juce::ChangeListener, private juce::Timer 
 {
 public:
-    SampleThumbnail(AudioThumbnail& nTh) : th(nTh){};
+    SampleThumbnail(AudioThumbnail& nTh);
     ~SampleThumbnail() override;
 
     void paint (juce::Graphics&) override;
     void resized() override;
     
     void changeListenerCallback(ChangeBroadcaster *source) override;
+
     void paintIfNoFileLoaded(juce::Graphics& g, Rectangle<int> area);
     void paintIfFileLoaded(juce::Graphics& g, Rectangle<int> area);
+
+    void thChanged();
+
+    void timerCallback() override
+    {
+        repaint();
+    }
+
 private:
     AudioThumbnail& th;
     bool draw = false;

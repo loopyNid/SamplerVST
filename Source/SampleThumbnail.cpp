@@ -11,11 +11,12 @@
 #include "SampleThumbnail.h"
 
 //==============================================================================
-// SampleThumbnail::SampleThumbnail(AudioThumbnail& nTh) : th(nTh)
-// {
-//     // In your constructor, you should add any child components, and
-//     // initialise any special settings that your component needs.
-// }
+SampleThumbnail::SampleThumbnail(AudioThumbnail& nTh) : th(nTh)
+{
+    // In your constructor, you should add any child components, and
+    // initialise any special settings that your component needs.
+    startTimer (40);  
+}
 
 SampleThumbnail::~SampleThumbnail()
 {
@@ -52,27 +53,36 @@ void SampleThumbnail::resized()
 
 void SampleThumbnail::changeListenerCallback(ChangeBroadcaster *source)
 {
-    if (source == &th){
-        DBG("changeListened");
-    }
-    repaint();
+    if (source == &th) thChanged();
+
 }
 void SampleThumbnail::paintIfNoFileLoaded(juce::Graphics& g, Rectangle<int> area)
 {
-  g.setColour (juce::Colours::darkgrey);
-  g.fillRect (area);
-  g.setColour (juce::Colours::white);
-  g.drawFittedText ("No File Loaded", area, juce::Justification::centred, 1);
+    g.setColour (juce::Colours::darkgrey);
+    g.fillRect (area);
+    g.setColour (juce::Colours::white);
+    g.drawFittedText ("No File Loaded", area, juce::Justification::centred, 1);
 }
 void SampleThumbnail::paintIfFileLoaded(juce::Graphics& g, Rectangle<int> area)
 {
-  g.setColour (juce::Colours::white);
-  g.fillRect (area);
+    g.setColour (juce::Colours::white);
+    g.fillRect (area);
 
-  g.setColour (juce::Colours::red);                               // [8]
-  th.drawChannels (g,                                      // [9]
-                        area,
-                        0.0,                                    // start time
-                        th.getTotalLength(),             // end time
-                        1.0f);                                  // vertical zoom
+    g.setColour (juce::Colours::red);
+    auto audioLength = (float) th.getTotalLength();
+    th.drawChannels (g, area, 0.0, audioLength, 1.0f);
+
+    g.setColour(juce::Colours::green);
+
+    // auto audioPosition = (float) ts.getCurrentPosition();
+    // DBG(audioPosition);
+    // auto drawPosition = (audioPosition / audioLength) * (float) area.getWidth()
+    //                     + (float) area.getX();                                // [13]
+    // g.drawLine (drawPosition, (float) area.getY(), drawPosition,
+    //             (float) area.getBottom(), 2.0f);
 }
+
+    void SampleThumbnail::thChanged()
+    {
+        repaint();
+    }

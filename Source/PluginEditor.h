@@ -20,8 +20,10 @@ public:
     
 
 private:
-    TextButton nLoadButton {"Load"};
-
+    Rectangle<int> uiArea;
+    TextButton nLoadButton {"Load file"};
+    Slider ampSlider;
+    
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     SamplerVSTAudioProcessor& processorRef;

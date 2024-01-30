@@ -143,6 +143,8 @@ void SamplerVSTAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
         buffer.clear (i, 0, buffer.getNumSamples());
 
     nikkSampler.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+
+    buffer.applyGain(amp);
 }
 
 //==============================================================================
@@ -203,6 +205,11 @@ void SamplerVSTAudioProcessor::loadFile(const String& path)
         nikkSampler.addSound(new SamplerSound("Sample", *formatReader, range, 60, 0.1, 0.1, 10.0));
         th.setSource(new FileInputSource(file));
     }
+}
+
+void SamplerVSTAudioProcessor::setAmp(float newAmp)
+{
+    amp = newAmp;
 }
 
 //==============================================================================

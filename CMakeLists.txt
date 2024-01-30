@@ -51,7 +51,8 @@ target_compile_definitions(
     ${TargetName}
     PUBLIC
     JUCE_MODAL_LOOPS_PERMITTED=1 # ADDED BY NIKK => because of juce 6.1 - breaking change https://forum.juce.com/t/solved-juce-filechooser-has-no-member-browseforfiletoopen/47793/2
-	JUCER_ENABLE_GPL_MODE=1
+	JUCE_USE_MP3AUDIOFORMAT=1 # ADDED BY NIKK
+    JUCER_ENABLE_GPL_MODE=1
         JUCE_DISPLAY_SPLASH_SCREEN=0
         JUCE_WEB_BROWSER=0
         JUCE_USE_CURL=0
