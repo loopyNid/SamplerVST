@@ -35,7 +35,7 @@ SamplerVSTAudioProcessorEditor::~SamplerVSTAudioProcessorEditor()
 void SamplerVSTAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll(Colours::purple);
+    g.fillAll(Colours::grey);
     // addAndMakeVisible(sThumb);
     // th.drawChannels(g, getLocalBounds(), 0, th.getTotalLength(), 1.0f);
 }

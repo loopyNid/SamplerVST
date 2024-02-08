@@ -65,21 +65,14 @@ void SampleThumbnail::paintIfNoFileLoaded(juce::Graphics& g, Rectangle<int> area
 }
 void SampleThumbnail::paintIfFileLoaded(juce::Graphics& g, Rectangle<int> area)
 {
-    g.setColour (juce::Colours::white);
+    g.setColour (juce::Colours::grey);
     g.fillRect (area);
 
-    g.setColour (juce::Colours::red);
+    g.setColour (juce::Colours::orangered);
     auto audioLength = (float) th.getTotalLength();
     th.drawChannels (g, area, 0.0, audioLength, 1.0f);
 
     g.setColour(juce::Colours::green);
-
-    // auto audioPosition = (float) ts.getCurrentPosition();
-    // DBG(audioPosition);
-    // auto drawPosition = (audioPosition / audioLength) * (float) area.getWidth()
-    //                     + (float) area.getX();                                // [13]
-    // g.drawLine (drawPosition, (float) area.getY(), drawPosition,
-    //             (float) area.getBottom(), 2.0f);
 }
 
     void SampleThumbnail::thChanged()
