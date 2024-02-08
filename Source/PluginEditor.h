@@ -29,5 +29,7 @@ private:
     SamplerVSTAudioProcessor& processorRef;
 
     SampleThumbnail sThumb = SampleThumbnail(processorRef.th);
+
+    std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> ampValue;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SamplerVSTAudioProcessorEditor)
 };

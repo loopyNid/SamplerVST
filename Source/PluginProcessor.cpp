@@ -11,8 +11,10 @@ SamplerVSTAudioProcessor::SamplerVSTAudioProcessor()
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
                        ),
+                    treeState(*this, nullptr, "PAR_ID", createParameterLayout()),
                     thCache (5),                            // [4]
                     th (512, nFormatManager, thCache)// [5]
+                    
 {
     nFormatManager.registerBasicFormats();
     for (int i = 0; i < nVoices; i++)
@@ -26,6 +28,15 @@ SamplerVSTAudioProcessor::~SamplerVSTAudioProcessor()
 }
 
 //==============================================================================
+//PARAMETERS
+AudioProcessorValueTreeState::ParameterLayout SamplerVSTAudioProcessor::createParameterLayout(){
+    AudioProcessorValueTreeState::ParameterLayout layout;
+    layout.add(std::make_unique<AudioParameterFloat> (GAIN_ID, GAIN_NAME, 0.0f, 1.0f, 0.4f));
+
+    return layout;
+
+}
+//END PARAMETERS
 const juce::String SamplerVSTAudioProcessor::getName() const
 {
     return JucePlugin_Name;
@@ -139,12 +150,13 @@ void SamplerVSTAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
+    auto sliderGainValue = treeState.getRawParameterValue(GAIN_ID);
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
     nikkSampler.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 
-    buffer.applyGain(amp);
+    buffer.applyGain(*sliderGainValue);
 }
 
 //==============================================================================
@@ -188,7 +200,7 @@ void SamplerVSTAudioProcessor::loadFile()
         {
             BigInteger range;
             range.setRange(0, 128, true);
-            nikkSampler.addSound(new SamplerSound("Sample", *formatReader, range, 60, 0.1, 0.1, 10.0));
+            nikkSampler.addSound(new SamplerSound("Sample", *formatReader, range, 60 , 0.1, 0.1, 10.0));
             th.setSource(new FileInputSource(file));
         }
     }
@@ -205,11 +217,6 @@ void SamplerVSTAudioProcessor::loadFile(const String& path)
         nikkSampler.addSound(new SamplerSound("Sample", *formatReader, range, 60, 0.1, 0.1, 10.0));
         th.setSource(new FileInputSource(file));
     }
-}
-
-void SamplerVSTAudioProcessor::setAmp(float newAmp)
-{
-    amp = newAmp;
 }
 
 //==============================================================================

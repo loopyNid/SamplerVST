@@ -2,7 +2,10 @@
 
 #include <JuceHeader.h>//added by Nikk
 #include <juce_audio_processors/juce_audio_processors.h>
-
+// PARAMETERS
+#define GAIN_ID "gain"
+#define GAIN_NAME "Gain"
+// END PARAMETER
 //==============================================================================
 class SamplerVSTAudioProcessor final : public juce::AudioProcessor
 {
@@ -47,18 +50,20 @@ public:
     void loadFile(const String& path);
 
     void setAmp(float newAmp);
+
+    // PARAMETERS
+    float rawVol;
+    AudioProcessorValueTreeState treeState;
+    AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
+    // END PARAMETERS
 private:
     AudioThumbnailCache thCache;
 public:
     AudioThumbnail th;
-
-    float amp = 0.3f;
-    
 private:
     AudioFormatManager nFormatManager;
     Synthesiser nikkSampler;
     const int nVoices {10};
-
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SamplerVSTAudioProcessor)

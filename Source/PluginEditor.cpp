@@ -7,6 +7,8 @@ SamplerVSTAudioProcessorEditor::SamplerVSTAudioProcessorEditor (SamplerVSTAudioP
                                 processorRef (p)
 {
     juce::ignoreUnused (processorRef);
+
+    ampValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processorRef.treeState, GAIN_ID, ampSlider);
     
     processorRef.th.addChangeListener(&sThumb);
     
@@ -16,8 +18,7 @@ SamplerVSTAudioProcessorEditor::SamplerVSTAudioProcessorEditor (SamplerVSTAudioP
     addAndMakeVisible(nLoadButton);
 
     ampSlider.setRange(0.0, 1.0);
-    ampSlider.setValue(processorRef.amp);
-    ampSlider.onValueChange = [&] {processorRef.setAmp(ampSlider.getValue());};
+    ampSlider.onValueChange = [&] {processorRef.rawVol = ampSlider.getValue();};
     ampSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
     addAndMakeVisible(ampSlider);
     // Make sure that before the constructor has finished, you've set the

@@ -3,10 +3,11 @@
 a simple sample made with the JUCE framework.
 
 ** todo
-- [ ] volume
-- [ ] panning
+- [X] mp3 does not work
+- [X] volume
+- [ ] parameters for DAW
+- [ ] panning (https://forum.juce.com/t/how-do-stereo-panning-knobs-work/25773/10)
+- [ ] looping
 - [ ] ADSR
 - [ ] repitch
-- [ ] parameters
-- [x] mp3 does not work
-- [ ] choosing starting sample (https://forum.juce.com/t/sourcesampleposition-in-samplervoice/16399) althought i think for my wanted functionality customizing sampleSound would work.
+- [ ] choosing starting/ending sample (https://forum.juce.com/t/sourcesampleposition-in-samplervoice/16399) althought i think for my wanted functionality customizing sampleSound would work.
